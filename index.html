@@ -2,52 +2,32 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>LIFF 測試 - 顯示使用者 ID</title>
-  <script src="https://static.line-scdn.net/liff/2/sdk.js" defer></script>
-  
-  <style>
-    body {
-      font-family: Arial;
-      padding: 20px;
-    }
-    #uid {
-      font-size: 18px;
-      color: green;
-      margin-top: 20px;
-      word-break: break-all;
-    }
-  </style>
+  <title>LIFF Init Test</title>
+  <script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
 </head>
 
-<body>
-
-<h2>LIFF 測試：顯示使用者 ID</h2>
-<div id="uid">載入中...</div>
+<body style="font-family: Arial; padding: 20px;">
+<h2>LIFF 初始化測試</h2>
+<div id="status">初始化中...</div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const status = document.getElementById("status");
 
     try {
-      await liff.init({ liffId:'2008427634-8qz9W0Q6'});
+        console.log("開始初始化 LIFF");
+        await liff.init({ liffId: "2008427634-8qz9W0Q6" });  // 替換你的 LIFF ID
 
-      // 未登入就登入
-      if (!liff.isLoggedIn()) {
-        return liff.login();
-      }
+        console.log("LIFF 初始化成功");
+        status.innerText = "SUCCESS";
 
-      // 取得使用者資訊
-      const profile = await liff.getProfile();
-      document.getElementById("uid").innerText =
-        "使用者 ID：\n" + profile.userId;
-
-    } catch (error) {
-      console.error("LIFF 初始化失敗：", error);
-      document.getElementById("uid").innerText = 
-        "發生錯誤（請確認此頁面是否從 LIFF 開啟）";
+    } catch (err) {
+        console.error("LIFF 初始化失敗：", err);
+        status.innerText = "FAIL\n" + err;
     }
-
-  });
+});
 </script>
 
 </body>
 </html>
+
