@@ -8,41 +8,47 @@
 
 <body style="font-family: Arial; padding: 20px;">
 <h2>LIFF 初始化測試</h2>
-<div id="status">初始化中...</div>
-
+<div id="result">初始化中...</div>
 
 <script>
-liff.init({ liffId: '2008427634-8qz9W0Q6' })
-  .then(async () => {
-    if (liff.isLoggedIn()) {
-      console.log(liff.getProfile());
-    } else {
-      liff.login();
+document.addEventListener("DOMContentLoaded", () => {
+    const result = document.getElementById("result");
+
+    // -------------------------------
+    // 方法一：Promise 寫法
+    // -------------------------------
+    liff.init({ liffId: "2008427634-8qz9W0Q6" })
+        .then(() => {
+            console.log("Promise init success");
+            result.innerText = "SUCCESS (Promise)";
+        })
+        .catch((err) => {
+            console.error("Promise init fail:", err);
+            result.innerText = "FAIL (Promise)\n" + err.code + " : " + err.message;
+        });
+
+    // -------------------------------
+    // 方法二：Callback 寫法
+    // -------------------------------
+    function onSuccess() {
+        console.log("Callback init success");
+        // 不覆蓋前面的文字，示意用
+        result.innerText += "\nSUCCESS (Callback)";
     }
-  })
-  .catch((err) => {
-    console.log(err);
-  })
-  </script>
-  
-/*<script>
-document.addEventListener("DOMContentLoaded", async () => {
-    const status = document.getElementById("status");
 
-    try {
-        console.log("開始初始化 LIFF");
-        await liff.init({ liffId: "2008427634-8qz9W0Q6" });  // 替換你的 LIFF ID
-
-        console.log("LIFF 初始化成功");
-        status.innerText = "SUCCESS";
-
-    } catch (err) {
-        console.error("LIFF 初始化失敗：", err);
-        status.innerText = "FAIL\n" + err;
+    function onError(err) {
+        console.error("Callback init fail:", err);
+        result.innerText += "\nFAIL (Callback)\n" + err.code + " : " + err.message;
     }
+
+    // 使用 callback 的 init
+    liff.init(
+        { liffId: "<YOUR_LIFF_ID>" },
+        onSuccess,
+        onError
+    );
 });
-</script>*/
+</script>
 
 </body>
 </html>
-
