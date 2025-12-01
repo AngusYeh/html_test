@@ -2,38 +2,41 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>My First LIFF App</title>
+  <title>選擇客服</title>
+  <script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
 </head>
-<body>
-  <h1>LIFF 測試頁面</h1>
-  <button id="btn">取得使用者資訊</button>
+<body style="font-family: Arial; padding: 20px;">
 
-  <p id="userinfo"></p>
+  <h2>請選擇客服人員</h2>
 
-  <!-- 載入 LIFF SDK -->
-  <script src="https://static.line-scdn.net/liff/edge/versions/2/sdk.js"></script>
+  <button onclick="selectCS('客服 A')" style="padding:10px; width:100%; margin:6px;">客服 A</button>
+  <button onclick="selectCS('客服 B')" style="padding:10px; width:100%; margin:6px;">客服 B</button>
+  <button onclick="selectCS('客服 C')" style="padding:10px; width:100%; margin:6px;">客服 C</button>
+
   <script>
-    async function init() {
-      await liff.init({
-        liffId: "你的 LIFF ID 放這裡"
-      });
+    async function main() {
+      await liff.init({ liffId: "<YOUR_LIFF_ID>" });
 
-      console.log("LIFF 初始化成功");
-
-      // 自動登入（避免跳轉）
+      // 如果未登入，先登入
       if (!liff.isLoggedIn()) {
         liff.login();
-        return;
       }
-
-      document.getElementById("btn").onclick = async () => {
-        const profile = await liff.getProfile();
-        document.getElementById("userinfo").innerText =
-          `Hello, ${profile.displayName}\nUserID: ${profile.userId}`;
-      };
     }
 
-    init();
+    async function selectCS(name) {
+      await liff.sendMessages([
+        {
+          type: "text",
+          text: `🟢 使用者選擇了「${name}」`
+        }
+      ]);
+
+      alert("已選擇：" + name);
+      liff.closeWindow();
+    }
+
+    main();
   </script>
+
 </body>
 </html>
