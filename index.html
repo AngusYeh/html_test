@@ -2,41 +2,49 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>選擇客服</title>
+  <title>LIFF 測試 - 顯示使用者 ID</title>
   <script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
-</head>
-<body style="font-family: Arial; padding: 20px;">
-
-  <h2>請選擇客服人員</h2>
-
-  <button onclick="selectCS('客服 A')" style="padding:10px; width:100%; margin:6px;">客服 A</button>
-  <button onclick="selectCS('客服 B')" style="padding:10px; width:100%; margin:6px;">客服 B</button>
-  <button onclick="selectCS('客服 C')" style="padding:10px; width:100%; margin:6px;">客服 C</button>
   
-<script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    #uid {
+      font-size: 18px;
+      color: green;
+      margin-top: 20px;
+      word-break: break-all;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>LIFF 測試：顯示使用者 ID</h2>
+<div id="uid">載入中...</div>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", async () => {
 
-    async function main() {
-      await liff.init({ liffId: "2008427634-8qz9W0Q6" });
+    try {
+      await liff.init({ liffId: "<2008427634-8qz9W0Q6>" });
 
+      // 未登入就登入
       if (!liff.isLoggedIn()) {
-        liff.login();
+        return liff.login();
       }
-    }
 
-    async function selectCS(name) {
-      await liff.sendMessages([
-        {
-          type: "text",
-          text: `🟢 使用者選擇了「${name}」`
-        }
-      ]);
-      alert("已選擇：" + name);
-      liff.closeWindow();
-    }
+      // 取得使用者資訊
+      const profile = await liff.getProfile();
+      document.getElementById("uid").innerText =
+        "使用者 ID：\n" + profile.userId;
 
-    main();
+    } catch (error) {
+      console.error("LIFF 初始化失敗：", error);
+      document.getElementById("uid").innerText = 
+        "發生錯誤（請確認此頁面是否從 LIFF 開啟）";
+    }
 
   });
 </script>
