@@ -9,6 +9,7 @@
 <body style="font-family: Arial; padding: 20px;">
 <h2>LIFF 初始化測試</h2>
 <div id="result">初始化中...</div>
+<div id="uid">使用者ID...</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,27 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Promise init fail:", err);
             result.innerText = "FAIL (Promise)\n" + err.code + " : " + err.message;
         });
+      const profile = await liff.getProfile();
+      document.getElementById("uid").innerText =
+        "使用者 ID：\n" + profile.userId;
 
-    // -------------------------------
-    // 方法二：Callback 寫法
-    // -------------------------------
-    function onSuccess() {
-        console.log("Callback init success");
-        // 不覆蓋前面的文字，示意用
-        result.innerText += "\nSUCCESS (Callback)";
-    }
-
-    function onError(err) {
-        console.error("Callback init fail:", err);
-        result.innerText += "\nFAIL (Callback)\n" + err.code + " : " + err.message;
-    }
-
-    // 使用 callback 的 init
-    liff.init(
-        { liffId: "<YOUR_LIFF_ID>" },
-        onSuccess,
-        onError
-    );
 });
 </script>
 
