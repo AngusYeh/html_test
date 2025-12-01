@@ -13,12 +13,13 @@
   <button onclick="selectCS('客服 B')" style="padding:10px; width:100%; margin:6px;">客服 B</button>
   <button onclick="selectCS('客服 C')" style="padding:10px; width:100%; margin:6px;">客服 C</button>
   
-  <script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
-  <script>
-    async function main() {
-      await liff.init({ liffId: "2008427634-8qz9W0Q6" });
+<script src="https://static.line-scdn.net/liff/2/sdk.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
 
-      // 如果未登入，先登入
+    async function main() {
+      await liff.init({ liffId: "<YOUR_LIFF_ID>" });
+
       if (!liff.isLoggedIn()) {
         liff.login();
       }
@@ -31,13 +32,14 @@
           text: `🟢 使用者選擇了「${name}」`
         }
       ]);
-
       alert("已選擇：" + name);
       liff.closeWindow();
     }
 
     main();
-  </script>
+
+  });
+</script>
 
 </body>
 </html>
