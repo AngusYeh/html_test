@@ -10,7 +10,22 @@
 <h2>LIFF 初始化測試</h2>
 <div id="status">初始化中...</div>
 
+
 <script>
+liff.init({ liffId: '2008427634-8qz9W0Q6' })
+  .then(async () => {
+    if (liff.isLoggedIn()) {
+      console.log(liff.getProfile());
+    } else {
+      liff.login();
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  </script>
+  
+/*<script>
 document.addEventListener("DOMContentLoaded", async () => {
     const status = document.getElementById("status");
 
@@ -26,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         status.innerText = "FAIL\n" + err;
     }
 });
-</script>
+</script>*/
 
 </body>
 </html>
