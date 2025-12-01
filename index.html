@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My First LIFF App</title>
+</head>
+<body>
+  <h1>LIFF 測試頁面</h1>
+  <button id="btn">取得使用者資訊</button>
+
+  <p id="userinfo"></p>
+
+  <!-- 載入 LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/versions/2/sdk.js"></script>
+  <script>
+    async function init() {
+      await liff.init({
+        liffId: "你的 LIFF ID 放這裡"
+      });
+
+      console.log("LIFF 初始化成功");
+
+      // 自動登入（避免跳轉）
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      document.getElementById("btn").onclick = async () => {
+        const profile = await liff.getProfile();
+        document.getElementById("userinfo").innerText =
+          `Hello, ${profile.displayName}\nUserID: ${profile.userId}`;
+      };
+    }
+
+    init();
+  </script>
+</body>
+</html>
